@@ -1,10 +1,34 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../state/auth.jsx";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "./ui/button.jsx";
+import { useAuth } from "../state/auth.jsx";
+import { supabase } from "../lib/supabase.js"; // if your supabase file is in a different path, update this import
 
 export default function BrandHeader() {
-  const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
+  const { user, profile, signOut: signOutFromContext } = useAuth();
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  async function handleLogout() {
+    setLoggingOut(true);
+    try {
+      // Prefer your auth context if it provides signOut, otherwise fallback to direct supabase sign out
+      if (typeof signOutFromContext === "function") {
+        await signOutFromContext();
+      } else {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+      }
+
+      toast.success("Logged out");
+      navigate("/"); // back to schedule
+    } catch (err) {
+      toast.error(err?.message || "Could not log out");
+    } finally {
+      setLoggingOut(false);
+    }
+  }
 
   return (
     <header className="sticky top-0 z-20 border-b border-brand-100 bg-white/90 backdrop-blur">
@@ -27,11 +51,17 @@ export default function BrandHeader() {
         <div className="ml-auto flex items-center gap-2">
           {user ? (
             <>
-              <span className="text-xs text-brand-700">
-                {profile?.full_name ? `Hi, ${profile.full_name}` : "Logged in"}
-              </span>
-              <Button variant="outline" size="sm" onClick={signOut}>
-                Log out
+              <Link to="/profile" className="text-xs text-brand-700 hover:underline">
+                {profile?.full_name ? `Hi, ${profile.full_name}` : "Profile"}
+              </Link>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleLogout}
+                disabled={loggingOut}
+              >
+                {loggingOut ? "Logging out…" : "Log out"}
               </Button>
             </>
           ) : (

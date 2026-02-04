@@ -8,10 +8,13 @@ import { Button } from "../components/ui/button.jsx";
 
 export default function ProfilePage() {
   const { profile, user, updateProfile, isAdmin } = useAuth();
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const [fullName, setFullName] = useState(profile?.full_name || "");
   const [phone, setPhone] = useState(profile?.phone || "");
   const [busy, setBusy] = useState(false);
+
+  
 
   async function onSave() {
     setBusy(true);

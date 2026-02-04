@@ -74,14 +74,32 @@ export default function AdminHome() {
       <Card>
         <CardHeader>
           <CardTitle>Admin</CardTitle>
-          <CardDescription>Manage sessions, bookings, and announcements.</CardDescription>
+          <CardDescription>Manage sessions, prices, members, and announcements.</CardDescription>
         </CardHeader>
-        <CardContent className="flex gap-2">
-          <Link to="/admin/announcements" className="flex-1">
-            <Button className="w-full" variant="outline">Announcements</Button>
+
+        <CardContent className="grid grid-cols-2 gap-2">
+          <Link to="/admin/sessions">
+            <Button className="w-full" variant="outline">
+              Manage Sessions
+            </Button>
           </Link>
-          <Link to="/admin/members" className="flex-1">
-            <Button className="w-full" variant="outline">Members</Button>
+
+          <Link to="/admin/class-types">
+            <Button className="w-full" variant="outline">
+              Class Types & Prices
+            </Button>
+          </Link>
+
+          <Link to="/admin/announcements">
+            <Button className="w-full" variant="outline">
+              Announcements
+            </Button>
+          </Link>
+
+          <Link to="/admin/members">
+            <Button className="w-full" variant="outline">
+              Members
+            </Button>
           </Link>
         </CardContent>
       </Card>
@@ -98,9 +116,7 @@ export default function AdminHome() {
       </div>
 
       {loading ? (
-        <div className="rounded-2xl border border-brand-100 bg-white p-4 text-sm text-brand-700">
-          Loading…
-        </div>
+        <div className="rounded-2xl border border-brand-100 bg-white p-4 text-sm text-brand-700">Loading…</div>
       ) : sessions.length ? (
         <div className="space-y-3">
           {sessions.map((s) => {
@@ -121,7 +137,9 @@ export default function AdminHome() {
                           <Badge variant={left === 0 ? "warning" : "success"}>{left} left</Badge>
                         </div>
                       </div>
-                      <Button size="sm" variant="outline">View</Button>
+                      <Button size="sm" variant="outline">
+                        View
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>

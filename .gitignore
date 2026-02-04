@@ -3,3 +3,7 @@ dist
 .env
 .DS_Store
 .env.*
+
+# VSCode Local History
+.history/
+**/.history/
