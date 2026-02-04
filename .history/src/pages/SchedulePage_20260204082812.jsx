@@ -17,19 +17,6 @@ import { Toggle } from "../components/ui/toggle.jsx";
 import { cn } from "../lib/utils.js";
 import { Link } from "react-router-dom";
 
-function priceLabel(session) {
-  const ct = session?.bloom_class_types;
-  const currency = ct?.currency || "GBP";
-  const pence =
-    session?.price_override_pence !== null && session?.price_override_pence !== undefined
-      ? session.price_override_pence
-      : ct?.default_price_pence ?? 0;
-
-  const amt = (Number(pence || 0) / 100).toFixed(2);
-  if (currency === "GBP") return `£${amt}`;
-  return `${amt} ${currency}`;
-}
-
 function DayChips({ selected, onSelect }) {
   const days = useMemo(() => Array.from({ length: 7 }, (_, i) => addDays(new Date(), i)), []);
   return (
@@ -73,8 +60,6 @@ function AnnouncementList({ items }) {
   );
 }
 
-
-
 function SessionCard({ session, typeName, bookedCount, myBooking, onRefresh }) {
   const { user } = useAuth();
 
@@ -109,9 +94,7 @@ function SessionCard({ session, typeName, bookedCount, myBooking, onRefresh }) {
             <div className="mt-1 flex flex-wrap gap-2">
               <Badge>{typeName || "Class"}</Badge>
               <Badge variant="outline">{session.duration_minutes} min</Badge>
-              <Badge variant="outline">{priceLabel(session)}</Badge>
               {session.location ? <Badge variant="outline">{session.location}</Badge> : null}
-              
             </div>
           </div>
 

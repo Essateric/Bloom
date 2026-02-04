@@ -8,14 +8,10 @@ import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import MyBookingsPage from "./pages/MyBookingsPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-
 import AdminHome from "./pages/admin/AdminHome.jsx";
-import AdminSessions from "./pages/admin/AdminSessions.jsx";
-import AdminClassTypes from "./pages/admin/AdminClassTypes.jsx";
 import AdminSession from "./pages/admin/AdminSession.jsx";
 import AdminAnnouncements from "./pages/admin/AdminAnnouncements.jsx";
 import AdminMembers from "./pages/admin/AdminMembers.jsx";
-
 import { RequireAuth, RequireAdmin } from "./components/RequireAuth.jsx";
 
 export default function App() {
@@ -53,26 +49,6 @@ export default function App() {
               </RequireAdmin>
             }
           />
-
-          {/* NEW: admin manage pages */}
-          <Route
-            path="/admin/sessions"
-            element={
-              <RequireAdmin>
-                <AdminSessions />
-              </RequireAdmin>
-            }
-          />
-          <Route
-            path="/admin/class-types"
-            element={
-              <RequireAdmin>
-                <AdminClassTypes />
-              </RequireAdmin>
-            }
-          />
-
-          {/* existing admin pages */}
           <Route
             path="/admin/sessions/:id"
             element={
